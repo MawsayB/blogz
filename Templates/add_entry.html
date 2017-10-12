@@ -1,0 +1,27 @@
+{% extends "base.html" %}
+
+{% block content %}
+    <style>
+        .error { color: blue; 
+        }
+    </style>
+
+    <form method='post'>
+        <label>
+            <b>Title:</b><br>
+            <textarea class="box" type="text" name='title' rows="1" cols="90"/>{{title}}</textarea>
+            <p class="error">{{title_error}}</p>
+        </label><br>
+
+        <label>
+            <b>Content:</b><br>
+            <textarea class="box" name='content' rows="10" cols="90"/>{{content}}</textarea>
+        </label>
+        <p class="error">{{content_error}}</p><br>
+        <input type="hidden" name="id" value="{{id}}" />
+        <input type="submit" value='Publish!' />
+    </form>
+
+    <hr />
+    
+{% endblock %}

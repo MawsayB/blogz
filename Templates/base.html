@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>Main Page</title>
+        <style>
+            .star {
+                width: 90px;
+                height: 75px;
+            }
+
+            *{
+                margin-left: 10px;
+                font-family: Arial, Helvetica, sans-serif;
+            }
+        </style>
+    </head>
+<body>
+
+    <div>
+        <a href = "http://localhost:5000/blog">Read Blog</a> &nbsp; 
+        <a href = "http://localhost:5000/newpost">Add a Post</a> 
+     </div>
+     
+     <div>
+     <h1><img class="star" src="http://bossierpress.com/wp-content/uploads/2015/03/gold-star-graphic.jpg"/>{{page_heading}}<img class="star" src="http://bossierpress.com/wp-content/uploads/2015/03/gold-star-graphic.jpg"/></h1>
+     </div>
+
+     <hr>
+
+    {% block content %}
+        {% for post in post %}
+        <h2><a href ="/blog?id={{post.id}}">{{post.title}}</a></h2>
+        <p>{{post.content}}<p>
+        <hr>
+        {% endfor %}
+    {% endblock %}
+
+</body>
+</html>
