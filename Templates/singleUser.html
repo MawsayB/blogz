@@ -1,0 +1,15 @@
+{% extends "base.html" %}
+
+{% block content %}
+{% for post in post %}
+<h2><a href ="/blog?id={{post.id}}">{{post.title}}</a></h2>
+<p>{{post.content}}<p>
+<h5>Author: {{user.username}}</h5>
+
+<!-- need to add author name listing to template -->
+
+<hr>
+{% endfor %}
+
+{% endblock %}
+

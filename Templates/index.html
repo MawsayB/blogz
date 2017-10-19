@@ -1,0 +1,20 @@
+{% extends "base.html" %}
+
+{% block content %}
+
+    <style>
+        ul { 
+            margin: 0; 
+            padding: 0; 
+            margin-left: 30px;
+        }
+    </style>
+
+    <h3>Our Authors:</h3>
+        <ul>
+        {% for user in user %}
+        <li>{{user.username}}</li>
+        {% endfor %}
+        </ul>
+
+{% endblock %}

@@ -1,0 +1,28 @@
+{% extends "base.html" %}
+
+{% block content %}
+    <style>
+        .error { color: blue; 
+        }
+    </style>
+
+    <form method='post'>
+        <label>
+            <b>Username:</b><br>
+            <input name='username' type="text" value='{{username}}' />
+            <p class="error">{{username_error}}</p>
+        </label><br>
+
+        <label>
+            <b>Password:</b><br>
+            <input name='password' type="password" value='{{password}}' />
+        </label>
+        <p class="error">{{password_error}}</p><br>
+        
+        <input type="submit" value='Start Writing!' />
+    </form>
+    <p>Want to write for Bloggity Blog?<a href = "http://localhost:5000/signup">Create an account.</a></p>
+
+    <hr />
+    
+{% endblock %}

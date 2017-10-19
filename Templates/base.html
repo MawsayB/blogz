@@ -10,15 +10,25 @@
 
             *{
                 margin-left: 10px;
+                margin-right: 10px;
                 font-family: Arial, Helvetica, sans-serif;
+            }
+
+            .right {
+                float: right; 
             }
         </style>
     </head>
 <body>
 
     <div>
-        <a href = "http://localhost:5000/blog">Read Blog</a> &nbsp; 
-        <a href = "http://localhost:5000/newpost">Add a Post</a> 
+        <span>
+        <a href = "http://localhost:5000/">Home</a>
+        <a href = "http://localhost:5000/blog">All Posts</a>
+        <a href = "http://localhost:5000/newpost">Add a Post</a>
+        <a class="right" href = "http://localhost:5000/logout">Sign Out</a>
+        <a class="right" href = "http://localhost:5000/login">Sign In</a> 
+        </span>
      </div>
      
      <div>
@@ -27,10 +37,23 @@
 
      <hr>
 
+     <!-- make sure flash works! -->
+     {% with messages = get_flashed_messages(with_categories=True) %}
+        <ul>
+        {% for category,message in messages %}
+            <li class="{{category}}">{{message}}</li>
+        {% endfor %}
+        </ul>
+    {% endwith %}   
+
     {% block content %}
         {% for post in post %}
         <h2><a href ="/blog?id={{post.id}}">{{post.title}}</a></h2>
         <p>{{post.content}}<p>
+        <h5>Author: {{user.username}}</h5>
+
+        <!-- need to add author name listing to template -->
+
         <hr>
         {% endfor %}
     {% endblock %}
