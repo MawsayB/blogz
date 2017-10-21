@@ -63,25 +63,30 @@ def login():
 
 @app.route('/blog', methods=['POST', 'GET'])
 def blog(): 
-    id = request.args.get('id')
-    user = request.args.get('user')
+
+    blog_id = request.args.get('id')
+    user_id = request.args.get('user')
     all_users = User.query.all()
 
-    if id == None:
+    if blog_id == None:
         post = Blog.query.all()
         user = User.query.all()
         return render_template('all_entries.html', page_heading = "The Incredible Bloggity Blog!", 
         post=post, user=user)  
 
-    if id:
-        post = Blog.query.get(id)
-        user = Blog.query.filter_by(owner_id=id).all()
-        return render_template('one_entry.html', page_heading = "I Built a Bloggity Blog!", post=post, user=user)
+    if blog_id:
+        one_post = Blog.query.get(blog_id)
+        post_user = Blog.query.filter_by(owner_id=blog_id).all()
+        return render_template('one_entry.html', page_heading = "I Built a Bloggity Blog!", 
+        post=one_post, user=post_user)
 
-    if user:
-        user = User.query.get(id)
-        post = Blog.query.filter_by(owner_id=id).all()        
-        return render_template('singleUser.html', page_heading = "Writer Spotlight", post=post, user=user)
+    if user_id:
+        unique_user_id = User.query.get(user_id)
+        posts_for_unique_user = Blog.query.filter_by(owner_id=user_id).all()  
+    
+        return redirect('/blog?id=' + username) 
+        return render_template('singleUser.html', page_heading = "Writer Spotlight", 
+        post=posts_for_unique_user, user=unique_user)
         
 @app.route('/newpost', methods=['POST', 'GET'])
 def newpost():
