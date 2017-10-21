@@ -64,21 +64,23 @@ def login():
 @app.route('/blog', methods=['POST', 'GET'])
 def blog(): 
     id = request.args.get('id')
+    user = request.args.get('user')
+    all_users = User.query.all()
 
     if id == None:
         post = Blog.query.all()
         user = User.query.all()
         return render_template('all_entries.html', page_heading = "The Incredible Bloggity Blog!", 
-        post=post, user=user)   
-    else:
+        post=post, user=user)  
+
+    if id:
         post = Blog.query.get(id)
-        user = User.query.get(id)
+        user = Blog.query.filter_by(owner_id=id).all()
         return render_template('one_entry.html', page_heading = "I Built a Bloggity Blog!", post=post, user=user)
 
-    if request.method == 'GET':
-        id = request.args.get()
-        post = Blog.query.filter_by('id').all()
-        return redirect('/user?userid' + id)
+    if user:
+        user = User.query.get(id)
+        post = Blog.query.filter_by(owner_id=id).all()        
         return render_template('singleUser.html', page_heading = "Writer Spotlight", post=post, user=user)
         
 @app.route('/newpost', methods=['POST', 'GET'])
@@ -108,11 +110,11 @@ def newpost():
             db.session.commit()
             blogs = Blog.query.all()
 
-            id = str(new_post.id)
-            return redirect('/blog?id=' + id)
+            user_id = str(new_post.owner_id)
+            return redirect('/blog?id=' + user_id)
     
     return render_template('add_entry.html', page_heading = "Add a Blog Entry", title='', title_error='',
-    content='', content_error='', blog_id = blog_id)
+    content='', content_error='', user_id=user_id)
 
 @app.route('/', methods=['POST', 'GET'])
 def index(): 
@@ -153,15 +155,13 @@ def signup():
 
         if not username_error and not password_error and not verpassword_error:
             existing_user = User.query.filter_by(username=username).first()
-            #need to finish: User enters new, valid username, a valid password, and verifies password correctly 
-            # and is redirected to the '/newpost' page with their username being stored in a session.
             if not existing_user:
                 new_user = User(username, password)
                 db.session.add(new_user)
                 db.session.commit()
                 session['username'] = username
                 flash('Write your first post below...')
-                return render_template('add_entry.html', page_heading ="Welcome newest writer!")
+                return redirect('/newpost')
             else:
                 return "<h3>That username already exists.</h3>"
 
