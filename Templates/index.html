@@ -1,4 +1,4 @@
-{% extends "base.html" %}
+{% extends "all_entries.html" %}
 
 {% block content %}
 
@@ -12,8 +12,8 @@
 
     <h3>Our Authors:</h3>
         <ul>
-        {% for user in user %}
-        <li>{{user.username}}</li>
+        {% for user in user |sort(attribute='username')%}
+        <li><a href="/blog?user={{user.username}}" id={{user.id}}>{{user.username}}</a></li>
         {% endfor %}
         </ul>
 

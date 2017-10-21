@@ -1,10 +1,10 @@
-{% extends "base.html" %}
+{% extends "all_entries.html" %}
 
 {% block content %}
+        
         <h2>{{post.title}}</h2>
         <p>{{post.content}}<p>
-     <!--need to link author to field below -->
-        <h5>Author:{{username}}</h5>
+        <h5>Written by:<a href="/blog?user={{post.owner.id}}" id={{post.id}}>{{post.owner.username}}</a></h5>
         <hr>
 
 {% endblock %}

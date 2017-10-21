@@ -1,15 +1,14 @@
-{% extends "base.html" %}
+{% extends "all_entries.html" %}
 
 {% block content %}
-{% for post in post %}
-<h2><a href ="/blog?id={{post.id}}">{{post.title}}</a></h2>
-<p>{{post.content}}<p>
-<h5>Author: {{user.username}}</h5>
 
-<!-- need to add author name listing to template -->
-
+        {% for post in post %}
+            {% if username == post.owner.username %}    
+                <h2><a href ="/blog?id={{post.id}}">{{post.title}}</a></h2>
+                <p>{{post.content}}<p>
+                <h5>Written by:<a href="/blog?user={{user.username}}" id={{user.id}}>{{user.username}}</a></h5>
 <hr>
-{% endfor %}
-
+            {% endif %}
+        {% endfor %}
 {% endblock %}
 

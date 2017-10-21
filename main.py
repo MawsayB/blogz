@@ -35,7 +35,7 @@ class User(db.Model):
 
 @app.before_request
 def require_login():
-    allowed_routes = ['login', 'blog' , 'display_signup_form', 'index']
+    allowed_routes = ['login', 'blog' , 'display_signup_form', 'index', 'signup']
     if request.endpoint not in allowed_routes and 'username' not in session:
         return redirect('/login')
 
@@ -53,7 +53,8 @@ def login():
         
         if user and user.password == password:
             session['username'] = username
-            flash('Logged in')
+            flash("Logged in")
+            print(session)
             return redirect('/newpost')
         else:
             flash('User password incorrect, or user does not exist', 'error')
@@ -67,20 +68,28 @@ def blog():
     if id == None:
         post = Blog.query.all()
         user = User.query.all()
-        return render_template('base.html', page_heading = "The Incredible Bloggity Blog!", 
+        return render_template('all_entries.html', page_heading = "The Incredible Bloggity Blog!", 
         post=post, user=user)   
     else:
         post = Blog.query.get(id)
-        return render_template('one_entry.html', page_heading = "I Built a Bloggity Blog!", post=post)
+        user = User.query.get(id)
+        return render_template('one_entry.html', page_heading = "I Built a Bloggity Blog!", post=post, user=user)
+
+    if request.method == 'GET':
+        id = request.args.get()
+        post = Blog.query.filter_by('id').all()
+        return redirect('/user?userid' + id)
+        return render_template('singleUser.html', page_heading = "Writer Spotlight", post=post, user=user)
         
 @app.route('/newpost', methods=['POST', 'GET'])
 def newpost():
-    owner = User.query.filter_by(username=session['username']).first()
+    
     blog_id = None 
 
     if request.method == 'POST':
         title = request.form['title']
         content = request.form['content']
+        owner = User.query.filter_by(username=session['username']).first()
 
         title_error=''
         content_error=''
@@ -97,6 +106,7 @@ def newpost():
             new_post = Blog(title, content, owner)
             db.session.add(new_post)
             db.session.commit()
+            blogs = Blog.query.all()
 
             id = str(new_post.id)
             return redirect('/blog?id=' + id)
@@ -150,8 +160,8 @@ def signup():
                 db.session.add(new_user)
                 db.session.commit()
                 session['username'] = username
-                flash('Welcome Newest Bloggity Blog Writer!')
-                return render_template('add_entry.html')
+                flash('Write your first post below...')
+                return render_template('add_entry.html', page_heading ="Welcome newest writer!")
             else:
                 return "<h3>That username already exists.</h3>"
 
