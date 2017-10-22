@@ -2,13 +2,14 @@
 
 {% block content %}
 
-I am a template.  I know how to render. 
+        <h2>I am a template.  I know how to render.</h2> 
 
-        <!---{% for post in posts %}   
+            {% for post in post %}   
                 <h2><a href ="/blog?id={{post.id}}">{{post.title}}</a></h2>
                 <p>{{post.content}}<p>
-                <h5>Written by:<a href="/blog?user={{post.owner.id}}" id={{user.id}}>{{user.username}}</a></h5>
-<hr>
-        {% endfor %} -->
+                <h5>Written by:<a href="/blog?user={{user.username}}" id={{user.id}}>{{user.username}}</a></h5>
+        <hr>
+            {% endfor %}
+
 {% endblock %}
 

@@ -65,14 +65,8 @@ def login():
 def blog(): 
 
     blog_id = request.args.get('id')
-    user_id = request.args.get('user')
     all_users = User.query.all()
-
-    if blog_id == None:
-        post = Blog.query.all()
-        user = User.query.all()
-        return render_template('all_entries.html', page_heading = "The Incredible Bloggity Blog!", 
-        post=post, user=user)  
+    user_id = request.args.get('user') 
 
     if blog_id:
         one_post = Blog.query.get(blog_id)
@@ -81,13 +75,17 @@ def blog():
         post=one_post, user=post_user)
 
     if user_id:
-        unique_user_id = User.query.get(id)
-        posts_for_unique_user = Blog.query.filter_by(owner_id=user_id).all()  
-    
-        #this part is working!!! V 
-        #return redirect('/blog?id=' + username) 
-        
-        return render_template('singleUser.html')
+        #the user's posts
+        user_posts = Blog.query.filter_by(owner_id=user_id).all()
+        #then render them into the template
+        return render_template('singleUser.html', page_heading = "Author Spotlight", 
+        post=user_posts, user=user_id)
+
+    else:
+        post = Blog.query.all()
+        user = User.query.all()
+        return render_template('all_entries.html', page_heading = "The Incredible Bloggity Blog!", 
+        post=post, user=user) 
         
 @app.route('/newpost', methods=['POST', 'GET'])
 def newpost():
