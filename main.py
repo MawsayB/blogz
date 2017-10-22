@@ -81,12 +81,13 @@ def blog():
         post=one_post, user=post_user)
 
     if user_id:
-        unique_user_id = User.query.get(user_id)
+        unique_user_id = User.query.get(id)
         posts_for_unique_user = Blog.query.filter_by(owner_id=user_id).all()  
     
-        return redirect('/blog?id=' + username) 
-        return render_template('singleUser.html', page_heading = "Writer Spotlight", 
-        post=posts_for_unique_user, user=unique_user)
+        #this part is working!!! V 
+        #return redirect('/blog?id=' + username) 
+        
+        return render_template('singleUser.html')
         
 @app.route('/newpost', methods=['POST', 'GET'])
 def newpost():
