@@ -66,7 +66,7 @@ def blog():
 
     blog_id = request.args.get('id')
     all_users = User.query.all()
-    user_id = request.args.get('user') 
+    username = request.args.get('user') 
 
     if blog_id:
         one_post = Blog.query.get(blog_id)
@@ -74,12 +74,10 @@ def blog():
         return render_template('one_entry.html', page_heading = "I Built a Bloggity Blog!", 
         post=one_post, user=post_user)
 
-    if user_id:
-        #the user's posts
-        user_posts = Blog.query.filter_by(owner_id=user_id).all()
-        #then render them into the template
-        return render_template('singleUser.html', page_heading = "Author Spotlight", 
-        post=user_posts, user=user_id)
+    if username:
+        owner_id = 10
+        post = Blog.query.filter_by(owner_id=owner_id).all()
+        return render_template('singleUser.html', page_heading = "Author Spotlight", post=post, user=username)
 
     else:
         post = Blog.query.all()

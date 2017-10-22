@@ -2,14 +2,12 @@
 
 {% block content %}
 
-        <h2>I am a template.  I know how to render.</h2> 
-
-            {% for post in post %}   
+        <h2>I am a template.  I know how to render.</h2>  
+                {% for post in post | sort(attribute='title') %}
                 <h2><a href ="/blog?id={{post.id}}">{{post.title}}</a></h2>
                 <p>{{post.content}}<p>
-                <h5>Written by:<a href="/blog?user={{user.username}}" id={{user.id}}>{{user.username}}</a></h5>
+                <h5>Written by:<a href="/blog?user={{user}}" id={{user.id}}>{{user}}</a></h5>
         <hr>
-            {% endfor %}
-
+                {% endfor %}
 {% endblock %}
 
