@@ -75,7 +75,8 @@ def blog():
         post=one_post, user=post_user)
 
     if username:
-        owner_id = 10
+        #owner_id = 6
+        owner_id = User.query.filter_by(username = username).first().id
         post = Blog.query.filter_by(owner_id=owner_id).all()
         return render_template('singleUser.html', page_heading = "Author Spotlight", post=post, user=username)
 

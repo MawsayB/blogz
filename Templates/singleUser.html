@@ -2,7 +2,6 @@
 
 {% block content %}
 
-        <h2>I am a template.  I know how to render.</h2>  
                 {% for post in post | sort(attribute='title') %}
                 <h2><a href ="/blog?id={{post.id}}">{{post.title}}</a></h2>
                 <p>{{post.content}}<p>
